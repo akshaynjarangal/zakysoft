@@ -1,4 +1,4 @@
-# faralah
+# Faralah
 
 Wholesale and retail food supplier App
 
