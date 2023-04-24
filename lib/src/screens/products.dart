@@ -1,4 +1,5 @@
-
+import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '/mylibs.dart';
@@ -109,8 +110,10 @@ class ProductsListSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList(
         delegate: SliverChildBuilderDelegate(
-            childCount: state.productsListModel.length + 1, (context, index) {
+            childCount: state.productsListModel.length + 1,
+            (context, index) {
       if (index < state.productsListModel.length) {
+        log("${state.productsListModel[index].images?[0].imageUrl}");
         return Container(
           color: Colors.white,
           padding: const EdgeInsets.all(16),
@@ -120,11 +123,15 @@ class ProductsListSection extends StatelessWidget {
                 height: 100,
                 width: 100,
                 decoration: BoxDecoration(
+                  
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(10),
-                    image: const DecorationImage(
+                    image:state.productsListModel[index].images![0].imageUrl!.endsWith("nophoto.png")?null: DecorationImage(
+                      onError:(exception, stackTrace) {
+                      },
                         fit: BoxFit.contain,
-                        image: AssetImage('assets/logo.webp'))),
+                        image: NetworkImage('https://sta.farawlah.sa/storage/${state.productsListModel[index].images?[0].imageUrl}'))),
+                        child: state.productsListModel[index].images![0].imageUrl!.endsWith("nophoto.png")?const Icon(CupertinoIcons.xmark_seal):null,
               ),
               const SizedBox(width: 15),
               Expanded(
@@ -141,7 +148,7 @@ class ProductsListSection extends StatelessWidget {
                                 fontWeight: FontWeight.w700,
                                 fontSize: Theme.of(context)
                                         .textTheme
-                                        .headline6!
+                                        .titleLarge!
                                         .fontSize! -
                                     5),
                           ),
@@ -189,7 +196,10 @@ class ProductsListSection extends StatelessWidget {
             state.hasMore == true
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: CircularProgressIndicator(
+                    child:Platform.isIOS?CupertinoActivityIndicator(
+                      radius: 14,
+                      color: Colors.green.shade400,
+                    ): CircularProgressIndicator(
                       strokeWidth: 2,
                       color: Colors.green.shade400,
                     ),

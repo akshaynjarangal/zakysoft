@@ -13,7 +13,7 @@ class AppUrls{
 final client = http.Client();
 
 class ErrorHandlers{
- /*
+/*
  ------------------------- HTTP RESPONSE HANDLER -----------------------
 */
  static Either<MainFailures, http.Response> httpHandler(http.Response response) {

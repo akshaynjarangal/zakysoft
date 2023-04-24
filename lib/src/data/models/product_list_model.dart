@@ -1,4 +1,6 @@
-// ignore_for_file: prefer_null_aware_operators, unnecessary_null_in_if_null_operators
+// To parse this JSON data, do
+//
+//     final productsListModel = productsListModelFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -36,18 +38,18 @@ class ProductsListModel extends Equatable {
   final int? id;
   final String? nameArabic;
   final int? categoryId;
-  final dynamic brandId;
+  final int? brandId;
   final String? rating;
   final int? isInWishListCount;
   final int? ratingsCount;
-  final double? sortPrice;
+  final int? sortPrice;
   final Category? category;
-  final dynamic offers;
+  final String? offers;
   final CartSummaries? cartSummaries;
   final Price? price;
   final Inventory? inventory;
   final List<Image>? images;
-  final List<TagElement>? tags;
+  final List<dynamic>? tags;
   final Storage? storage;
 
   ProductsListModel copyWith({
@@ -55,18 +57,18 @@ class ProductsListModel extends Equatable {
     int? id,
     String? nameArabic,
     int? categoryId,
-    dynamic brandId,
+    int? brandId,
     String? rating,
     int? isInWishListCount,
     int? ratingsCount,
-    double? sortPrice,
+    int? sortPrice,
     Category? category,
-    dynamic offers,
+    String? offers,
     CartSummaries? cartSummaries,
     Price? price,
     Inventory? inventory,
     List<Image>? images,
-    List<TagElement>? tags,
+    List<dynamic>? tags,
     Storage? storage,
   }) =>
       ProductsListModel(
@@ -91,16 +93,15 @@ class ProductsListModel extends Equatable {
 
   factory ProductsListModel.fromJson(Map<String, dynamic> json) =>
       ProductsListModel(
-        name: json["name"] ?? null,
-        id: json["id"] ?? null,
-        nameArabic: json["name_arabic"] ?? null,
-        categoryId: json["category_id"] ?? null,
+        name: json["name"],
+        id: json["id"],
+        nameArabic: json["name_arabic"],
+        categoryId: json["category_id"],
         brandId: json["brand_id"],
-        rating: json["rating"] ?? null,
-        isInWishListCount: json["is_in_wish_list_count"] ?? null,
-        ratingsCount: json["ratings_count"] ?? null,
-        sortPrice:
-            json["sort_price"] == null ? null : json["sort_price"].toDouble(),
+        rating: json["rating"],
+        isInWishListCount: json["is_in_wish_list_count"],
+        ratingsCount: json["ratings_count"],
+        sortPrice: json["sort_price"],
         category: json["category"] == null
             ? null
             : Category.fromJson(json["category"]),
@@ -113,39 +114,35 @@ class ProductsListModel extends Equatable {
             ? null
             : Inventory.fromJson(json["inventory"]),
         images: json["images"] == null
-            ? null
-            : List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+            ? []
+            : List<Image>.from(json["images"]!.map((x) => Image.fromJson(x))),
         tags: json["tags"] == null
-            ? null
-            : List<TagElement>.from(
-                json["tags"].map((x) => TagElement.fromJson(x))),
+            ? []
+            : List<dynamic>.from(json["tags"]!.map((x) => x)),
         storage:
             json["storage"] == null ? null : Storage.fromJson(json["storage"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name ?? null,
-        "id": id ?? null,
-        "name_arabic": nameArabic ?? null,
-        "category_id": categoryId ?? null,
+        "name": name,
+        "id": id,
+        "name_arabic": nameArabic,
+        "category_id": categoryId,
         "brand_id": brandId,
-        "rating": rating ?? null,
-        "is_in_wish_list_count": isInWishListCount ?? null,
-        "ratings_count": ratingsCount ?? null,
-        "sort_price": sortPrice ?? null,
-        "category": category == null ? null : category?.toJson(),
+        "rating": rating,
+        "is_in_wish_list_count": isInWishListCount,
+        "ratings_count": ratingsCount,
+        "sort_price": sortPrice,
+        "category": category?.toJson(),
         "offers": offers,
-        "cart_summaries":
-            cartSummaries == null ? null : cartSummaries?.toJson(),
-        "price": price == null ? null : price?.toJson(),
-        "inventory": inventory == null ? null : inventory?.toJson(),
+        "cart_summaries": cartSummaries?.toJson(),
+        "price": price?.toJson(),
+        "inventory": inventory?.toJson(),
         "images": images == null
-            ? null
+            ? []
             : List<dynamic>.from(images!.map((x) => x.toJson())),
-        "tags": tags == null
-            ? null
-            : List<dynamic>.from(tags!.map((x) => x.toJson())),
-        "storage": storage == null ? null : storage?.toJson(),
+        "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
+        "storage": storage?.toJson(),
       };
 
   @override
@@ -189,13 +186,13 @@ class CartSummaries extends Equatable {
       );
 
   factory CartSummaries.fromJson(Map<String, dynamic> json) => CartSummaries(
-        itemId: json["item_id"] ?? null,
-        quantity: json["quantity"] ?? null,
+        itemId: json["item_id"],
+        quantity: json["quantity"],
       );
 
   Map<String, dynamic> toJson() => {
-        "item_id": itemId ?? null,
-        "quantity": quantity ?? null,
+        "item_id": itemId,
+        "quantity": quantity,
       };
 
   @override
@@ -211,12 +208,12 @@ class Category extends Equatable {
 
   final int? id;
   final int? parentId;
-  final dynamic offers;
+  final Offers? offers;
 
   Category copyWith({
     int? id,
     int? parentId,
-    dynamic offers,
+    Offers? offers,
   }) =>
       Category(
         id: id ?? this.id,
@@ -225,19 +222,243 @@ class Category extends Equatable {
       );
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"] ?? null,
-        parentId: json["parent_id"] ?? null,
-        offers: json["offers"],
+        id: json["id"],
+        parentId: json["parent_id"],
+        offers: json["offers"] == null ? null : Offers.fromJson(json["offers"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? null,
-        "parent_id": parentId ?? null,
-        "offers": offers,
+        "id": id,
+        "parent_id": parentId,
+        "offers": offers?.toJson(),
       };
 
   @override
   List<Object?> get props => [id, parentId, offers];
+}
+
+class Offers extends Equatable {
+  const Offers({
+    this.id,
+    this.discount,
+    this.categoryId,
+    this.pricebookId,
+    this.maxUnit,
+    this.discountType,
+    this.priceBook,
+  });
+
+  final int? id;
+  final int? discount;
+  final int? categoryId;
+  final int? pricebookId;
+  final int? maxUnit;
+  final String? discountType;
+  final PriceBook? priceBook;
+
+  Offers copyWith({
+    int? id,
+    int? discount,
+    int? categoryId,
+    int? pricebookId,
+    int? maxUnit,
+    String? discountType,
+    PriceBook? priceBook,
+  }) =>
+      Offers(
+        id: id ?? this.id,
+        discount: discount ?? this.discount,
+        categoryId: categoryId ?? this.categoryId,
+        pricebookId: pricebookId ?? this.pricebookId,
+        maxUnit: maxUnit ?? this.maxUnit,
+        discountType: discountType ?? this.discountType,
+        priceBook: priceBook ?? this.priceBook,
+      );
+
+  factory Offers.fromJson(Map<String, dynamic> json) => Offers(
+        id: json["id"],
+        discount: json["discount"],
+        categoryId: json["category_id"],
+        pricebookId: json["pricebook_id"],
+        maxUnit: json["max_unit"],
+        discountType: json["discount_type"],
+        priceBook: json["price_book"] == null
+            ? null
+            : PriceBook.fromJson(json["price_book"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "discount": discount,
+        "category_id": categoryId,
+        "pricebook_id": pricebookId,
+        "max_unit": maxUnit,
+        "discount_type": discountType,
+        "price_book": priceBook?.toJson(),
+      };
+
+  @override
+  List<Object?> get props =>
+      [id, discount, categoryId, pricebookId, maxUnit, discountType, priceBook];
+}
+
+class PriceBook extends Equatable {
+  const PriceBook({
+    this.id,
+    this.name,
+    this.nameArabic,
+    this.description,
+    this.descriptionArabic,
+    this.isActive,
+    this.validFrom,
+    this.validTo,
+    this.file,
+    this.imageArabic,
+    this.isAvailableOfflineCustomer,
+    this.discountType,
+    this.type,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+  });
+
+  final int? id;
+  final String? name;
+  final String? nameArabic;
+  final String? description;
+  final String? descriptionArabic;
+  final int? isActive;
+  final DateTime? validFrom;
+  final DateTime? validTo;
+  final String? file;
+  final String? imageArabic;
+  final int? isAvailableOfflineCustomer;
+  final String? discountType;
+  final String? type;
+  final int? createdBy;
+  final DateTime? updatedBy;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
+
+  PriceBook copyWith({
+    int? id,
+    String? name,
+    String? nameArabic,
+    String? description,
+    String? descriptionArabic,
+    int? isActive,
+    DateTime? validFrom,
+    DateTime? validTo,
+    String? file,
+    String? imageArabic,
+    int? isAvailableOfflineCustomer,
+    String? discountType,
+    String? type,
+    int? createdBy,
+    DateTime? updatedBy,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
+  }) =>
+      PriceBook(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        nameArabic: nameArabic ?? this.nameArabic,
+        description: description ?? this.description,
+        descriptionArabic: descriptionArabic ?? this.descriptionArabic,
+        isActive: isActive ?? this.isActive,
+        validFrom: validFrom ?? this.validFrom,
+        validTo: validTo ?? this.validTo,
+        file: file ?? this.file,
+        imageArabic: imageArabic ?? this.imageArabic,
+        isAvailableOfflineCustomer:
+            isAvailableOfflineCustomer ?? this.isAvailableOfflineCustomer,
+        discountType: discountType ?? this.discountType,
+        type: type ?? this.type,
+        createdBy: createdBy ?? this.createdBy,
+        updatedBy: updatedBy ?? this.updatedBy,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        deletedAt: deletedAt ?? this.deletedAt,
+      );
+
+  factory PriceBook.fromJson(Map<String, dynamic> json) => PriceBook(
+        id: json["id"],
+        name: json["name"],
+        nameArabic: json["name_arabic"],
+        description: json["description"],
+        descriptionArabic: json["description_arabic"],
+        isActive: json["IS_active"],
+        validFrom: json["valid_from"] == null
+            ? null
+            : DateTime.parse(json["valid_from"]),
+        validTo:
+            json["valid_to"] == null ? null : DateTime.parse(json["valid_to"]),
+        file: json["file"],
+        imageArabic: json["image_arabic"],
+        isAvailableOfflineCustomer: json["IS_available_offline_customer"],
+        discountType: json["discount_type"],
+        type: json["type"],
+        createdBy: json["created_by"],
+        updatedBy: json["updated_by"] == null
+            ? null
+            : DateTime.parse(json["updated_by"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        deletedAt: json["deleted_at"] == null
+            ? null
+            : DateTime.parse(json["deleted_at"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "name_arabic": nameArabic,
+        "description": description,
+        "description_arabic": descriptionArabic,
+        "IS_active": isActive,
+        "valid_from": validFrom?.toIso8601String(),
+        "valid_to": validTo?.toIso8601String(),
+        "file": file,
+        "image_arabic": imageArabic,
+        "IS_available_offline_customer": isAvailableOfflineCustomer,
+        "discount_type": discountType,
+        "type": type,
+        "created_by": createdBy,
+        "updated_by": updatedBy?.toIso8601String(),
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "deleted_at": deletedAt?.toIso8601String(),
+      };
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        nameArabic,
+        description,
+        descriptionArabic,
+        isActive,
+        validFrom,
+        validTo,
+        file,
+        imageArabic,
+        isAvailableOfflineCustomer,
+        discountType,
+        type,
+        createdBy,
+        updatedBy,
+        createdAt,
+        updatedAt,
+        deletedAt
+      ];
 }
 
 class Image extends Equatable {
@@ -263,15 +484,15 @@ class Image extends Equatable {
       );
 
   factory Image.fromJson(Map<String, dynamic> json) => Image(
-        productId: json["product_id"] ?? null,
-        imageUrl: json["image_url"] ?? null,
-        isDefault: json["IS_default"] ?? null,
+        productId: json["product_id"],
+        imageUrl: json["image_url"],
+        isDefault: json["IS_default"],
       );
 
   Map<String, dynamic> toJson() => {
-        "product_id": productId ?? null,
-        "image_url": imageUrl ?? null,
-        "IS_default": isDefault ?? null,
+        "product_id": productId,
+        "image_url": imageUrl,
+        "IS_default": isDefault,
       };
 
   @override
@@ -305,17 +526,17 @@ class Inventory extends Equatable {
       );
 
   factory Inventory.fromJson(Map<String, dynamic> json) => Inventory(
-        id: json["id"] ?? null,
-        productId: json["product_id"] ?? null,
-        criticalPoint: json["critical_point"] ?? null,
-        isSalableNstocks: json["Is_salable_nstocks"] ?? null,
+        id: json["id"],
+        productId: json["product_id"],
+        criticalPoint: json["critical_point"],
+        isSalableNstocks: json["Is_salable_nstocks"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? null,
-        "product_id": productId ?? null,
-        "critical_point": criticalPoint ?? null,
-        "Is_salable_nstocks": isSalableNstocks ?? null,
+        "id": id,
+        "product_id": productId,
+        "critical_point": criticalPoint,
+        "Is_salable_nstocks": isSalableNstocks,
       };
 
   @override
@@ -333,14 +554,14 @@ class Price extends Equatable {
 
   final int? id;
   final int? productId;
-  final double? salePrice;
+  final int? salePrice;
   final int? taxId;
   final Tax? tax;
 
   Price copyWith({
     int? id,
     int? productId,
-    double? salePrice,
+    int? salePrice,
     int? taxId,
     Tax? tax,
   }) =>
@@ -353,30 +574,23 @@ class Price extends Equatable {
       );
 
   factory Price.fromJson(Map<String, dynamic> json) => Price(
-        id: json["id"] ?? null,
-        productId: json["product_id"] ?? null,
-        salePrice:
-            json["sale_price"] == null ? null : json["sale_price"].toDouble(),
-        taxId: json["tax_id"] ?? null,
+        id: json["id"],
+        productId: json["product_id"],
+        salePrice: json["sale_price"],
+        taxId: json["tax_id"],
         tax: json["tax"] == null ? null : Tax.fromJson(json["tax"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? null,
-        "product_id": productId ?? null,
-        "sale_price": salePrice ?? null,
-        "tax_id": taxId ?? null,
-        "tax": tax == null ? null : tax?.toJson(),
+        "id": id,
+        "product_id": productId,
+        "sale_price": salePrice,
+        "tax_id": taxId,
+        "tax": tax?.toJson(),
       };
 
   @override
-  List<Object?> get props => [
-        id,
-        productId,
-        salePrice,
-        taxId,
-        tax,
-      ];
+  List<Object?> get props => [id, productId, salePrice, taxId, tax];
 }
 
 class Tax extends Equatable {
@@ -410,19 +624,19 @@ class Tax extends Equatable {
       );
 
   factory Tax.fromJson(Map<String, dynamic> json) => Tax(
-        id: json["id"] ?? null,
-        name: json["name"] ?? null,
-        nameArabic: json["name_arabic"] ?? null,
-        rate: json["rate"] ?? null,
-        isPriceInclude: json["IS_price_include"] ?? null,
+        id: json["id"],
+        name: json["name"],
+        nameArabic: json["name_arabic"],
+        rate: json["rate"],
+        isPriceInclude: json["IS_price_include"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? null,
-        "name": name ?? null,
-        "name_arabic": nameArabic ?? null,
-        "rate": rate ?? null,
-        "IS_price_include": isPriceInclude ?? null,
+        "id": id,
+        "name": name,
+        "name_arabic": nameArabic,
+        "rate": rate,
+        "IS_price_include": isPriceInclude,
       };
 
   @override
@@ -456,130 +670,19 @@ class Storage extends Equatable {
       );
 
   factory Storage.fromJson(Map<String, dynamic> json) => Storage(
-        id: json["id"] ?? null,
-        productId: json["product_id"] ?? null,
-        quantityOnhand: json["quantity_onhand"] ?? null,
-        quantityReserved: json["quantity_reserved"] ?? null,
+        id: json["id"],
+        productId: json["product_id"],
+        quantityOnhand: json["quantity_onhand"],
+        quantityReserved: json["quantity_reserved"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? null,
-        "product_id": productId ?? null,
-        "quantity_onhand": quantityOnhand ?? null,
-        "quantity_reserved": quantityReserved ?? null,
+        "id": id,
+        "product_id": productId,
+        "quantity_onhand": quantityOnhand,
+        "quantity_reserved": quantityReserved,
       };
 
   @override
   List<Object?> get props => [id, productId, quantityOnhand, quantityReserved];
-}
-
-class TagElement extends Equatable {
-  const TagElement({
-    this.id,
-    this.productId,
-    this.tagId,
-    this.tag,
-  });
-
-  final int? id;
-  final int? productId;
-  final int? tagId;
-  final TagTag? tag;
-
-  TagElement copyWith({
-    int? id,
-    int? productId,
-    int? tagId,
-    TagTag? tag,
-  }) =>
-      TagElement(
-        id: id ?? this.id,
-        productId: productId ?? this.productId,
-        tagId: tagId ?? this.tagId,
-        tag: tag ?? this.tag,
-      );
-
-  factory TagElement.fromJson(Map<String, dynamic> json) => TagElement(
-        id: json["id"] ?? null,
-        productId: json["product_id"] ?? null,
-        tagId: json["tag_id"] ?? null,
-        tag: json["tag"] == null ? null : TagTag.fromJson(json["tag"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id ?? null,
-        "product_id": productId ?? null,
-        "tag_id": tagId ?? null,
-        "tag": tag == null ? null : tag?.toJson(),
-      };
-
-  @override
-  List<Object?> get props => [id, productId, tagId, tag];
-}
-
-class TagTag extends Equatable {
-  const TagTag({
-    this.id,
-    this.name,
-    this.nameArabic,
-    this.isActive,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-  });
-
-  final int? id;
-  final String? name;
-  final String? nameArabic;
-  final int? isActive;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final dynamic deletedAt;
-
-  TagTag copyWith({
-    int? id,
-    String? name,
-    String? nameArabic,
-    int? isActive,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    dynamic deletedAt,
-  }) =>
-      TagTag(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        nameArabic: nameArabic ?? this.nameArabic,
-        isActive: isActive ?? this.isActive,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
-      );
-
-  factory TagTag.fromJson(Map<String, dynamic> json) => TagTag(
-        id: json["id"] ?? null,
-        name: json["name"] ?? null,
-        nameArabic: json["name_arabic"] ?? null,
-        isActive: json["IS_active"] ?? null,
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-        deletedAt: json["deleted_at"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id ?? null,
-        "name": name ?? null,
-        "name_arabic": nameArabic ?? null,
-        "IS_active": isActive ?? null,
-        "created_at": createdAt == null ? null : createdAt?.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt?.toIso8601String(),
-        "deleted_at": deletedAt,
-      };
-
-  @override
-  List<Object?> get props =>
-      [id, name, nameArabic, isActive, createdAt, updatedAt, deletedAt];
 }

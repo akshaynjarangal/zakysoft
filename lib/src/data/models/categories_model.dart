@@ -1,18 +1,20 @@
-// ignore_for_file: unnecessary_null_in_if_null_operators
+// To parse this JSON data, do
+//
+//     final categoriesListModel = categoriesListModelFromJson(jsonString);
 
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-List<CategoriesModel> categoriesModelFromJson(String str) =>
-    List<CategoriesModel>.from(
-        json.decode(str).map((x) => CategoriesModel.fromJson(x)));
+List<CategoriesListModel> categoriesListModelFromJson(String str) =>
+    List<CategoriesListModel>.from(
+        json.decode(str).map((x) => CategoriesListModel.fromJson(x)));
 
-String categoriesModelToJson(List<CategoriesModel> data) =>
+String categoriesListModelToJson(List<CategoriesListModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class CategoriesModel extends Equatable {
-  const CategoriesModel({
+class CategoriesListModel extends Equatable {
+  const CategoriesListModel({
     this.id,
     this.name,
     this.nameArabic,
@@ -26,20 +28,20 @@ class CategoriesModel extends Equatable {
   final String? name;
   final String? nameArabic;
   final String? imageUrl;
-  final int? parentId;
+  final dynamic parentId;
   final int? isActive;
   final int? isAvailableInApp;
 
-  CategoriesModel copyWith({
+  CategoriesListModel copyWith({
     int? id,
     String? name,
     String? nameArabic,
     String? imageUrl,
-    int? parentId,
+    dynamic parentId,
     int? isActive,
     int? isAvailableInApp,
   }) =>
-      CategoriesModel(
+      CategoriesListModel(
         id: id ?? this.id,
         name: name ?? this.name,
         nameArabic: nameArabic ?? this.nameArabic,
@@ -49,35 +51,27 @@ class CategoriesModel extends Equatable {
         isAvailableInApp: isAvailableInApp ?? this.isAvailableInApp,
       );
 
-  factory CategoriesModel.fromJson(Map<String, dynamic> json) =>
-      CategoriesModel(
-        id: json["id"] ?? null,
-        name: json["name"] ?? null,
-        nameArabic: json["name_arabic"] ?? null,
-        imageUrl: json["image_url"] ?? null,
-        parentId: json["parent_id"] ?? null,
-        isActive: json["IS_active"] ?? null,
-        isAvailableInApp: json["IS_available_in_app"] ?? null,
+  factory CategoriesListModel.fromJson(Map<String, dynamic> json) =>
+      CategoriesListModel(
+        id: json["id"],
+        name: json["name"],
+        nameArabic: json["name_arabic"],
+        imageUrl: json["image_url"],
+        parentId: json["parent_id"],
+        isActive: json["IS_active"],
+        isAvailableInApp: json["IS_available_in_app"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? null,
-        "name": name ?? null,
-        "name_arabic": nameArabic ?? null,
-        "image_url": imageUrl ?? null,
-        "parent_id": parentId ?? null,
-        "IS_active": isActive ?? null,
-        "IS_available_in_app": isAvailableInApp ?? null,
+        "id": id,
+        "name": name,
+        "name_arabic": nameArabic,
+        "image_url": imageUrl,
+        "parent_id": parentId,
+        "IS_active": isActive,
+        "IS_available_in_app": isAvailableInApp,
       };
 
   @override
-  List<Object?> get props => [
-        id,
-        name,
-        nameArabic,
-        imageUrl,
-        parentId,
-        isActive,
-        isAvailableInApp,
-      ];
+  List<Object?> get props =>[id, name, nameArabic, imageUrl, parentId, isActive, isAvailableInApp];
 }

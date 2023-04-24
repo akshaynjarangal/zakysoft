@@ -15,9 +15,9 @@ class CategoriesProvider extends ChangeNotifier with EquatableMixin{
   ///
   /// getter & setter for [categoriesModel] & [setCategoriesModel] 
   /// 
-  List<CategoriesModel> _categoriesModel= [];
-  List<CategoriesModel> get categoriesModel => _categoriesModel;
-  set setCategoriesModel(List<CategoriesModel> categories) => _categoriesModel = categories;
+  List<CategoriesListModel> _categoriesModel= [];
+  List<CategoriesListModel> get categoriesModel => _categoriesModel;
+  set setCategoriesModel(List<CategoriesListModel> categories) => _categoriesModel = categories;
   /// 
   /// [isError]for Handle error state
   /// 
@@ -42,8 +42,8 @@ class CategoriesProvider extends ChangeNotifier with EquatableMixin{
       setLoading = false;
       notifyListeners();
     }, (success) {      
-      setCategoriesModel = categoriesModelFromJson(success.body);
-      _categoriesModel.insert(0, const CategoriesModel(id: 0,name: 'All'));
+      setCategoriesModel = categoriesListModelFromJson(success.body);
+      _categoriesModel.insert(0, const CategoriesListModel(id: 0,name: 'All'));
       setLoading = false;
       setSuccess = true;
       setError = false;

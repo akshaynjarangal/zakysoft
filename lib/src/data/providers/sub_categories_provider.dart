@@ -14,9 +14,9 @@ class SubCategoriesProvider extends ChangeNotifier with EquatableMixin{
   ///
   /// getter & setter for [subCategoriesModel] & [setSubCategoriesModel] 
   /// 
-  List<SubCategoriesModel> _subCategoriesModel= [];
-  List<SubCategoriesModel> get subCategoriesModel => _subCategoriesModel;
-  set setSubCategoriesModel(List<SubCategoriesModel> subcategories) => _subCategoriesModel = subcategories;
+  List<SubCategoriesListModel> _subCategoriesModel= [];
+  List<SubCategoriesListModel> get subCategoriesModel => _subCategoriesModel;
+  set setSubCategoriesModel(List<SubCategoriesListModel> subcategories) => _subCategoriesModel = subcategories;
   
   /// 
   /// [isError]for Handle error state
@@ -42,8 +42,8 @@ class SubCategoriesProvider extends ChangeNotifier with EquatableMixin{
       setLoading = false;
       notifyListeners();
     }, (success) {      
-      setSubCategoriesModel = subCategoriesModelFromJson(success.body);
-      _subCategoriesModel.insert(0, const SubCategoriesModel(id: 0,name: 'All'));
+      setSubCategoriesModel = subCategoriesListModelFromJson(success.body);
+      _subCategoriesModel.insert(0, const SubCategoriesListModel(id: 0,name: 'All'));
       setLoading = false;
       setSuccess = true;
       setError = false;

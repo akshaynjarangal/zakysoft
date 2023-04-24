@@ -1,18 +1,20 @@
-// ignore_for_file: unnecessary_null_in_if_null_operators
+// To parse this JSON data, do
+//
+//     final subCategoriesListModel = subCategoriesListModelFromJson(jsonString);
 
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-List<SubCategoriesModel> subCategoriesModelFromJson(String str) =>
-    List<SubCategoriesModel>.from(
-        json.decode(str).map((x) => SubCategoriesModel.fromJson(x)));
+List<SubCategoriesListModel> subCategoriesListModelFromJson(String str) =>
+    List<SubCategoriesListModel>.from(
+        json.decode(str).map((x) => SubCategoriesListModel.fromJson(x)));
 
-String subCategoriesModelToJson(List<SubCategoriesModel> data) =>
+String subCategoriesListModelToJson(List<SubCategoriesListModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class SubCategoriesModel extends Equatable {
-  const SubCategoriesModel({
+class SubCategoriesListModel extends Equatable {
+  const SubCategoriesListModel({
     this.id,
     this.name,
     this.nameArabic,
@@ -26,14 +28,14 @@ class SubCategoriesModel extends Equatable {
   final String? imageUrl;
   final int? parentId;
 
-  SubCategoriesModel copyWith({
+  SubCategoriesListModel copyWith({
     int? id,
     String? name,
     String? nameArabic,
     String? imageUrl,
     int? parentId,
   }) =>
-      SubCategoriesModel(
+      SubCategoriesListModel(
         id: id ?? this.id,
         name: name ?? this.name,
         nameArabic: nameArabic ?? this.nameArabic,
@@ -41,29 +43,23 @@ class SubCategoriesModel extends Equatable {
         parentId: parentId ?? this.parentId,
       );
 
-  factory SubCategoriesModel.fromJson(Map<String, dynamic> json) =>
-      SubCategoriesModel(
-        id: json["id"] ?? null,
-        name: json["name"] ?? null,
-        nameArabic: json["name_arabic"] ?? null,
-        imageUrl: json["image_url"] ?? null,
-        parentId: json["parent_id"] ?? null,
+  factory SubCategoriesListModel.fromJson(Map<String, dynamic> json) =>
+      SubCategoriesListModel(
+        id: json["id"],
+        name: json["name"],
+        nameArabic: json["name_arabic"],
+        imageUrl: json["image_url"],
+        parentId: json["parent_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? null,
-        "name": name ?? null,
-        "name_arabic": nameArabic ?? null,
-        "image_url": imageUrl ?? null,
-        "parent_id": parentId ?? null,
+        "id": id,
+        "name": name,
+        "name_arabic": nameArabic,
+        "image_url": imageUrl,
+        "parent_id": parentId,
       };
 
   @override
-  List<Object?> get props => [
-        id,
-        name,
-        nameArabic,
-        imageUrl,
-        parentId,
-      ];
+  List<Object?> get props => [id, name, nameArabic, imageUrl, parentId];
 }
