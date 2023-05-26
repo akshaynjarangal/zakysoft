@@ -41,7 +41,7 @@ class Products extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.only(top: 16),
                         color: Colors.white,
-                        child: Column(
+                        child:  Column(
                           children: const [
                             CategoryListSection(),
                             SizedBox(height: 15),
